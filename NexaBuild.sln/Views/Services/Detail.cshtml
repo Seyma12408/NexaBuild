@@ -1,0 +1,92 @@
+@model NexaBuild.Entities.Service
+@{
+    ViewData["Title"] = Model.Title;
+    var otherServices = ViewBag.OtherServices as List<NexaBuild.Entities.Service> ?? new();
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>@Model.Title</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Services" asp-action="Index">Hizmetlerimiz</a>
+                <a href="javascript:void(0)">@Model.Title</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Single Post Start-->
+<div class="single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-content wow fadeInUp">
+                    <img src="@Model.ImageUrl" alt="@Model.Title" class="w-100 mb-4" style="max-height: 420px; object-fit: cover;" />
+                    <h2>@Model.Title</h2>
+                    <p class="lead font-weight-bold" style="color: #030f27;">
+                        @Model.Summary
+                    </p>
+                    <p>
+                        @Model.Description
+                    </p>
+
+                    @if (!string.IsNullOrEmpty(Model.Features))
+                    {
+                        <h3 class="mt-4 mb-3">Öne Çıkan Standartlarımız</h3>
+                        <ul class="list-unstyled">
+                            @foreach (var feature in Model.Features.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                <li class="py-2 border-bottom d-flex align-items-center">
+                                    <i class="fa fa-check-circle text-warning mr-3 font-weight-bold" style="font-size: 1.2rem;"></i>
+                                    <span>@feature</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+
+                    <div class="mt-4 p-4 rounded" style="background: #f8f9fa; border-left: 4px solid #fdbe33;">
+                        <h4 class="mb-2">Bu Hizmetimiz İçin Teklif Almak İster Misiniz?</h4>
+                        <p class="mb-3 text-muted">Projenizin detaylarını bizimle paylaşın, uzman mühendislerimiz size en uygun maliyet ve takvim planını hazırlasın.</p>
+                        <a asp-controller="Quote" asp-action="Index" class="btn" style="background: #fdbe33; color: #030f27; font-weight: 700;">Hemen Teklif Alın</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Diğer Hizmetlerimiz</h2>
+                        <div class="category-widget">
+                            <ul>
+                                @foreach (var s in otherServices)
+                                {
+                                    <li><a asp-controller="Services" asp-action="Detail" asp-route-slug="@s.Slug">@s.Title</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Neden NexaBuild?</h2>
+                        <div class="text-widget">
+                            <p>
+                                15 yılı aşkın inşaat tecrübemiz, 85+ kişilik uzman mühendis kadromuz ve sıfır tavizli deprem güvenliği ilkemizle projelerinizi güvenle inşa ediyoruz.
+                            </p>
+                            <p class="font-weight-bold mb-0">
+                                <i class="fa fa-phone text-warning mr-2"></i> +90 (312) 000 00 00
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Single Post End-->

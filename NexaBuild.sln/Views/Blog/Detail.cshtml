@@ -1,0 +1,114 @@
+@model NexaBuild.Entities.BlogPost
+@{
+    ViewData["Title"] = Model.Title;
+    var recentPosts = ViewBag.RecentPosts as List<NexaBuild.Entities.BlogPost> ?? new();
+    var categories = ViewBag.Categories as List<NexaBuild.Entities.BlogCategory> ?? new();
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Haber Detayı</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Blog" asp-action="Index">Haberler</a>
+                <a href="javascript:void(0)">@Model.Title</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Single Post Start-->
+<div class="single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-content wow fadeInUp">
+                    <img src="@Model.CoverImageUrl" alt="@Model.Title" class="w-100 mb-4" style="max-height: 440px; object-fit: cover;" />
+                    
+                    <div class="d-flex align-items-center text-muted small mb-3">
+                        <span class="mr-3"><i class="fa fa-user text-warning mr-1"></i> @Model.Author</span>
+                        <span class="mr-3"><i class="fa fa-calendar-alt text-warning mr-1"></i> @(Model.PublishedAt.HasValue ? Model.PublishedAt.Value.ToString("dd.MM.yyyy") : DateTime.UtcNow.ToString("dd.MM.yyyy"))</span>
+                        <span class="mr-3"><i class="fa fa-folder text-warning mr-1"></i> @(Model.Category?.Name ?? "Genel")</span>
+                        <span><i class="fa fa-eye text-warning mr-1"></i> @Model.ViewCount Okunma</span>
+                    </div>
+
+                    <h2>@Model.Title</h2>
+                    <p class="lead font-weight-bold" style="color: #030f27;">
+                        @Model.Summary
+                    </p>
+                    
+                    <div class="blog-body-text mt-3" style="line-height: 1.8; color: #444;">
+                        @Html.Raw(Model.Content.Replace("\n", "<br />"))
+                    </div>
+                </div>
+
+                <!-- Author Bio -->
+                <div class="single-bio wow fadeInUp mt-4">
+                    <div class="single-bio-img">
+                        <img src="~/img/user.jpg" alt="@Model.Author" />
+                    </div>
+                    <div class="single-bio-text">
+                        <h3>@Model.Author</h3>
+                        <p>
+                            NexaBuild Yapı bünyesinde mimari ve mühendislik araştırmaları ekibinde görev almaktadır. Türkiye'de sürdürülebilir ve depreme dayanıklı yapı teknolojileri üzerine yayınlar hazırlamaktadır.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Kategoriler</h2>
+                        <div class="category-widget">
+                            <ul>
+                                @foreach (var cat in categories)
+                                {
+                                    <li><a asp-controller="Blog" asp-action="Index" asp-route-category="@cat.Slug">@cat.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Son Yazılar</h2>
+                        <div class="recent-post">
+                            @foreach (var post in recentPosts)
+                            {
+                                <div class="post-item mb-3 d-flex align-items-center">
+                                    <div class="post-img mr-3" style="width: 80px; height: 65px; flex-shrink: 0; overflow: hidden; border-radius: 4px;">
+                                        <img src="@post.CoverImageUrl" alt="@post.Title" style="width: 100%; height: 100%; object-fit: cover;" />
+                                    </div>
+                                    <div class="post-text">
+                                        <a asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug" class="font-weight-bold text-dark small" style="line-height: 1.3; display: block;">
+                                            @(post.Title.Length > 45 ? post.Title.Substring(0, 42) + "..." : post.Title)
+                                        </a>
+                                        <div class="post-meta text-muted small mt-1">
+                                            <span>@(post.PublishedAt.HasValue ? post.PublishedAt.Value.ToString("dd.MM.yyyy") : DateTime.UtcNow.ToString("dd.MM.yyyy"))</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">NexaBuild ile İnşa Edin</h2>
+                        <div class="text-widget">
+                            <p>Arsanız için kat karşılığı veya anahtar teslim teklif almak ister misiniz?</p>
+                            <a asp-controller="Quote" asp-action="Index" class="btn btn-block" style="background: #fdbe33; color: #030f27; font-weight: 700;">Hemen Teklif Alın</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Single Post End-->

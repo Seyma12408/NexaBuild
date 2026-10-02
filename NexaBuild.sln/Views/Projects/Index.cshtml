@@ -1,0 +1,110 @@
+@model List<NexaBuild.DTOs.ProjectListDto>
+@{
+    ViewData["Title"] = "Projelerimiz";
+    var categories = ViewBag.Categories as List<NexaBuild.Entities.ProjectCategory> ?? new();
+    string activeCat = ViewBag.ActiveCategory as string ?? "";
+    string activeStatus = ViewBag.ActiveStatus as string ?? "";
+    string search = ViewBag.Search as string ?? "";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Projelerimiz</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Projects" asp-action="Index">Projelerimiz</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Portfolio Start -->
+<div class="portfolio">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Projelerimiz</p>
+            <h2>İmzamızı Taşıyan Prestijli Yapılar</h2>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <form method="get" asp-controller="Projects" asp-action="Index" class="form-row align-items-center justify-content-center">
+                    <div class="col-md-4 col-sm-6 my-1">
+                        <input type="text" name="search" value="@search" class="form-control" placeholder="Proje adı veya lokasyon ara..." />
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-1">
+                        <select name="category" class="form-control" onchange="this.form.submit()">
+                            <option value="">Tüm Kategoriler</option>
+                            @foreach (var cat in categories)
+                            {
+                                <option value="@cat.Slug" selected="@(activeCat == cat.Slug ? "selected" : null)">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-1">
+                        <select name="status" class="form-control" onchange="this.form.submit()">
+                            <option value="">Tüm Durumlar</option>
+                            <option value="Ongoing" selected="@(activeStatus == "Ongoing" ? "selected" : null)">Devam Eden Projeler</option>
+                            <option value="Completed" selected="@(activeStatus == "Completed" ? "selected" : null)">Tamamlanan Projeler</option>
+                            <option value="Planning" selected="@(activeStatus == "Planning" ? "selected" : null)">Planlama Aşamasındakiler</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-6 my-1">
+                        <button type="submit" class="btn btn-block" style="background: #fdbe33; color: #030f27; font-weight: 600;">Filtrele</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="row">
+                <div class="col-12 text-center py-5">
+                    <i class="fa fa-folder-open text-muted fa-3x mb-3"></i>
+                    <h4 class="text-dark">Aradığınız kriterlere uygun proje bulunamadı.</h4>
+                    <p class="text-muted">Lütfen filtrelerinizi temizleyin veya tüm projeleri listeleyin.</p>
+                    <a asp-controller="Projects" asp-action="Index" class="btn" style="background: #fdbe33; color: #030f27;">Tüm Projeleri Göster</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row portfolio-container">
+                @foreach (var project in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="portfolio-warp">
+                            <div class="portfolio-img">
+                                <img src="@project.CoverImageUrl" alt="@project.Title" style="height: 260px; width: 100%; object-fit: cover;">
+                                <div class="portfolio-overlay">
+                                    <p class="mb-2">
+                                        <strong>@project.Location</strong><br />
+                                        @(project.Status == ProjectStatus.Ongoing ? "Devam Ediyor" : project.Status == ProjectStatus.Completed ? "Tamamlandı" : "Planlama") — 
+                                        İlerleme: %@project.ProgressPercentage
+                                    </p>
+                                    <p class="small">@project.ShortDescription</p>
+                                </div>
+                            </div>
+                            <div class="portfolio-text">
+                                <h3 title="@project.Title">
+                                    <a asp-controller="Projects" asp-action="Detail" asp-route-slug="@project.Slug" class="text-dark">
+                                        @(project.Title.Length > 28 ? project.Title.Substring(0, 25) + "..." : project.Title)
+                                    </a>
+                                </h3>
+                                <a class="btn" asp-controller="Projects" asp-action="Detail" asp-route-slug="@project.Slug" title="Proje Detaylarını İncele">+</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<!-- Portfolio End -->

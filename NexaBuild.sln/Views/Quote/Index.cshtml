@@ -1,0 +1,142 @@
+@model NexaBuild.DTOs.QuoteRequestCreateDto
+@{
+    ViewData["Title"] = "Ücretsiz Teklif Al";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Ücretsiz Teklif Al</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Quote" asp-action="Index">Teklif Al</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Quote Section Start -->
+<div class="contact wow fadeInUp py-5">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Fiyat & Proje Teklifi</p>
+            <h2>Projenizi Birlikte Hayata Geçirelim</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="contact-form p-4 shadow-sm rounded" style="background: #ffffff; border: 1px solid #e9ecef;">
+                    <form asp-controller="Quote" asp-action="Index" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 font-weight-bold"></div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">Ad Soyad *</label>
+                                <input type="text" asp-for="FullName" class="form-control" placeholder="Adınız ve Soyadınız" required />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">E-posta Adresi *</label>
+                                <input type="email" asp-for="Email" class="form-control" placeholder="ornek@domain.com" required />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">Telefon Numarası *</label>
+                                <input type="tel" asp-for="Phone" class="form-control" placeholder="+90 5XX XXX XX XX" required />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">Proje Türü *</label>
+                                <select asp-for="ProjectType" class="form-control" required>
+                                    <option value="">Proje Türü Seçiniz</option>
+                                    <option value="Konut Projesi">Konut / Rezidans Projesi</option>
+                                    <option value="Ticari Yapı & Ofis">Ticari Yapı & Ofis / Plaza</option>
+                                    <option value="Endüstriyel Tesis">Endüstriyel Tesis & Depo</option>
+                                    <option value="Kentsel Dönüşüm">Kentsel Dönüşüm & Yenileme</option>
+                                    <option value="Mimari Tasarım & BIM">Mimari Tasarım & Projelendirme</option>
+                                    <option value="Anahtar Teslim Taahhüt">Anahtar Teslim Müteahhitlik</option>
+                                </select>
+                                <span asp-validation-for="ProjectType" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">Tahmini Bütçe (₺ / TL)</label>
+                                <input type="text" asp-for="EstimatedBudget" class="form-control" placeholder="Örn: ₺5.000.000 - ₺10.000.000" />
+                                <span asp-validation-for="EstimatedBudget" class="text-danger small"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">Proje / Arsa Dosyası (İsteğe Bağlı)</label>
+                                <input type="file" asp-for="AttachmentFile" class="form-control-file border p-1 rounded" accept=".pdf,.png,.jpg,.jpeg,.dwg" />
+                                <small class="text-muted">PDF, DWG veya görsel yükleyebilirsiniz (Maks 10MB).</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold text-dark">Proje Detayları ve Talebiniz *</label>
+                            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Projenizin konumu, arsa m² alanı, kat beklentisi veya özel isteklerinizi açıklayınız..." required></textarea>
+                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-block" type="submit" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 15px; font-size: 1.1rem;">
+                                <i class="fa fa-paper-plane mr-2"></i> Teklif Talebini Gönder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="sidebar">
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Süreç Nasıl İşler?</h2>
+                        <div class="text-widget">
+                            <div class="mb-3 d-flex align-items-start">
+                                <span class="badge badge-warning p-2 mr-3 font-weight-bold text-dark" style="font-size: 1rem;">1</span>
+                                <div>
+                                    <strong>Formu İletin</strong>
+                                    <p class="small text-muted mb-0">Talebiniz uzman inşaat mühendislerimize anında ulaşır.</p>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex align-items-start">
+                                <span class="badge badge-warning p-2 mr-3 font-weight-bold text-dark" style="font-size: 1rem;">2</span>
+                                <div>
+                                    <strong>Ücretsiz Keşif</strong>
+                                    <p class="small text-muted mb-0">Yerinde arazi/yapı analizi ve statik fizibilite yapılır.</p>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex align-items-start">
+                                <span class="badge badge-warning p-2 mr-3 font-weight-bold text-dark" style="font-size: 1rem;">3</span>
+                                <div>
+                                    <strong>Detaylı Teklif Raporu</strong>
+                                    <p class="small text-muted mb-0">En geç 24 saat içinde net maliyet ve teslim takvimi sunulur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Doğrudan İletişim</h2>
+                        <div class="text-widget">
+                            <p>Sorularınız için bizi mesai saatleri içinde dilediğiniz an arayabilirsiniz.</p>
+                            <p class="font-weight-bold mb-1"><i class="fa fa-phone text-warning mr-2"></i> +90 (312) 000 00 00</p>
+                            <p class="font-weight-bold mb-0"><i class="fa fa-envelope text-warning mr-2"></i> info@nexabuild.com.tr</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Quote Section End -->

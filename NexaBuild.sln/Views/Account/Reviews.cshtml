@@ -1,0 +1,126 @@
+@model List<NexaBuild.Entities.Testimonial>
+@{
+    ViewData["Title"] = "Değerlendirmelerim & Yorum";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Yorum ve Değerlendirmelerim</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Account" asp-action="Reviews">Yorumlarım</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Panel Content -->
+<div class="contact py-5" style="background: #f8f9fa;">
+    <div class="container py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <partial name="_UserNav" />
+            </div>
+
+            <!-- Reviews Content -->
+            <div class="col-lg-9">
+                <!-- New Review Form Card -->
+                <div class="p-4 p-md-5 bg-white rounded shadow-sm mb-4" style="border: 1px solid #e9ecef;">
+                    <h3 class="font-weight-bold mb-2" style="color: #030f27;">Deneyiminizi Paylaşın</h3>
+                    <p class="text-muted small mb-4">Tamamlanan veya devam eden projelerimiz hakkındaki düşünceleriniz bizim için çok değerlidir.</p>
+
+                    <form asp-controller="Account" asp-action="SubmitReview" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark small">Adınız Soyadınız *</label>
+                                <input name="FullName" value="@User.Identity?.Name" class="form-control" required />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark small">Ünvanınız / Pozisyonunuz</label>
+                                <input name="Position" class="form-control" placeholder="Örn: Mülk Sahibi, Yatırımcı" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark small">Firma / Proje Adı</label>
+                                <input name="Company" class="form-control" placeholder="Örn: Mersin Marina Residence" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark small">Puanınız (1 - 5)</label>
+                                <select name="Rating" class="form-control">
+                                    <option value="5">⭐⭐⭐⭐⭐ 5 Yıldız (Mükemmel)</option>
+                                    <option value="4">⭐⭐⭐⭐ 4 Yıldız (Çok İyi)</option>
+                                    <option value="3">⭐⭐⭐ 3 Yıldız (İyi)</option>
+                                    <option value="2">⭐⭐ 2 Yıldız (Orta)</option>
+                                    <option value="1">⭐ 1 Yıldız (Geliştirilmeli)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold text-dark small">Yorumunuz & Düşünceleriniz *</label>
+                            <textarea name="Comment" rows="3" class="form-control" placeholder="Şantiye süreci, işçilik kalitesi ve müşteri iletişimi hakkındaki deneyimlerinizi aktarınız..." required></textarea>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="btn" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 12px 25px;">
+                                <i class="fa fa-paper-plane mr-2"></i> Yorumu Gönder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Existing Reviews List -->
+                <div class="p-4 p-md-5 bg-white rounded shadow-sm" style="border: 1px solid #e9ecef;">
+                    <h4 class="font-weight-bold mb-4 border-bottom pb-3" style="color: #030f27;">Daha Önceki Değerlendirmeleriniz</h4>
+
+                    @if (Model == null || !Model.Any())
+                    {
+                        <p class="text-muted small mb-0">Henüz yayınlanmış veya bekleyen bir yorumunuz bulunmuyor.</p>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var rev in Model)
+                            {
+                                <div class="list-group-item px-0 py-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <span class="text-warning font-weight-bold">
+                                                @for (int i = 0; i < rev.Rating; i++) { <span>★</span> }
+                                            </span>
+                                            <span class="small text-muted ml-2">@rev.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                        <div>
+                                            @if (rev.Status == ReviewStatus.Approved)
+                                            {
+                                                <span class="badge badge-success">Onaylandı & Yayında</span>
+                                            }
+                                            else if (rev.Status == ReviewStatus.Pending)
+                                            {
+                                                <span class="badge badge-warning text-dark">Yönetici Onayı Bekliyor</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Reddedildi</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <p class="mb-0 text-dark">“@rev.Comment”</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

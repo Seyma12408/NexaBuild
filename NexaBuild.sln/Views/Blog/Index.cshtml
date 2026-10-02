@@ -1,0 +1,96 @@
+@model List<NexaBuild.Entities.BlogPost>
+@{
+    ViewData["Title"] = "Haberler & Blog";
+    var categories = ViewBag.Categories as List<NexaBuild.Entities.BlogCategory> ?? new();
+    string activeCat = ViewBag.ActiveCategory as string ?? "";
+    string search = ViewBag.Search as string ?? "";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Haberler & Blog</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Blog" asp-action="Index">Haberler</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Blog Start -->
+<div class="blog">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Haberler & Makaleler</p>
+            <h2>İnşaat ve Mimarlık Dünyasından Gelişmeler</h2>
+        </div>
+
+        <!-- Search & Filter Bar -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <form method="get" asp-controller="Blog" asp-action="Index" class="form-row align-items-center justify-content-center">
+                    <div class="col-md-5 col-sm-6 my-1">
+                        <input type="text" name="search" value="@search" class="form-control" placeholder="Haber veya makale ara..." />
+                    </div>
+                    <div class="col-md-4 col-sm-6 my-1">
+                        <select name="category" class="form-control" onchange="this.form.submit()">
+                            <option value="">Tüm Kategoriler</option>
+                            @foreach (var cat in categories)
+                            {
+                                <option value="@cat.Slug" selected="@(activeCat == cat.Slug ? "selected" : null)">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-sm-6 my-1">
+                        <button type="submit" class="btn btn-block" style="background: #fdbe33; color: #030f27; font-weight: 600;">Ara</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row blog-page">
+            @if (Model != null && Model.Any())
+            {
+                int delay = 1;
+                foreach (var post in Model)
+                {
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.@(delay)s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="@post.CoverImageUrl" alt="@post.Title" style="height: 220px; width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="blog-title">
+                                <h3><a asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug" class="text-dark">@post.Title</a></h3>
+                                <a class="btn" asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug">+</a>
+                            </div>
+                            <div class="blog-meta">
+                                <p>Yazar: <a href="javascript:void(0)">@post.Author</a></p>
+                                <p>Tarih: <a href="javascript:void(0)">@(post.PublishedAt.HasValue ? post.PublishedAt.Value.ToString("dd.MM.yyyy") : DateTime.UtcNow.ToString("dd.MM.yyyy"))</a></p>
+                            </div>
+                            <div class="blog-text">
+                                <p>@post.Summary</p>
+                            </div>
+                        </div>
+                    </div>
+                    delay = (delay % 6) + 1;
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="fa fa-newspaper text-muted fa-3x mb-3"></i>
+                    <h4 class="text-dark">Aradığınız kriterlere uygun yazı bulunamadı.</h4>
+                    <p class="text-muted">Lütfen arama teriminizi değiştirin veya tüm yazıları listeleyin.</p>
+                    <a asp-controller="Blog" asp-action="Index" class="btn" style="background: #fdbe33; color: #030f27;">Tüm Yazıları Göster</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Blog End -->

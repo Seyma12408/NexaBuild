@@ -1,0 +1,267 @@
+@inject ISiteSettingService SettingService
+@{
+    var settings = await SettingService.GetSettingsAsync();
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(ViewData["Title"] != null ? ViewData["Title"] + " - " : "")@settings.CompanyName - Güvenle İnşa Ediyoruz</title>
+    <meta name="keywords" content="inşaat şirketi, konut projeleri, mimarlık, kentsel dönüşüm, taahhüt, mühendislik, NexaBuild">
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? settings.MetaDescription)">
+
+    <!-- Favicon -->
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="~/lib/flaticon/font/flaticon.css" rel="stylesheet"> 
+    <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Top Bar Start -->
+        <div class="top-bar">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <h1>NexaBuild</h1>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <i class="flaticon-calendar"></i>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>Çalışma Saatleri</h3>
+                                        <p>@(string.IsNullOrEmpty(settings.WorkingHours) ? "Pzt - Cuma, 08:30 - 18:00" : settings.WorkingHours)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <i class="flaticon-call"></i>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>Bizi Arayın</h3>
+                                        <p><a href="tel:@settings.Phone" class="text-dark">@settings.Phone</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon">
+                                        <i class="flaticon-send-mail"></i>
+                                    </div>
+                                    <div class="top-bar-text">
+                                        <h3>E-posta</h3>
+                                        <p><a href="mailto:@settings.Email" class="text-dark">@settings.Email</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar End -->
+
+        <!-- Nav Bar Start -->
+        <div class="nav-bar">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                    <a href="#" class="navbar-brand">MENÜ</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto">
+                            <a asp-controller="Home" asp-action="Index" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">Ana Sayfa</a>
+                            <a asp-controller="Home" asp-action="About" class="nav-item nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")">Hakkımızda</a>
+                            <a asp-controller="Services" asp-action="Index" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Services" ? "active" : "")">Hizmetlerimiz</a>
+                            <a asp-controller="Projects" asp-action="Index" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")">Projelerimiz</a>
+                            <a asp-controller="Blog" asp-action="Index" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Blog" ? "active" : "")">Haberler</a>
+                            <a asp-controller="Contact" asp-action="Index" class="nav-item nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Contact" ? "active" : "")">İletişim</a>
+                            
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user text-warning mr-1"></i> @User.Identity.Name</a>
+                                    <div class="dropdown-menu">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="dropdown-item text-warning font-weight-bold"><i class="fa fa-tachometer-alt mr-2"></i> Yönetim Paneli</a>
+                                            <div class="dropdown-divider"></div>
+                                        }
+                                        <a asp-controller="Account" asp-action="Profile" class="dropdown-item"><i class="fa fa-id-card mr-2"></i> Profilim</a>
+                                        <a asp-controller="Account" asp-action="Quotes" class="dropdown-item"><i class="fa fa-file-invoice mr-2"></i> Teklif Taleplerim</a>
+                                        <a asp-controller="Account" asp-action="Favorites" class="dropdown-item"><i class="fa fa-heart mr-2"></i> Favori Projelerim</a>
+                                        <a asp-controller="Account" asp-action="Reviews" class="dropdown-item"><i class="fa fa-comments mr-2"></i> Yorumlarım</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-1">
+                                            <button type="submit" class="btn btn-sm btn-danger btn-block"><i class="fa fa-sign-out-alt mr-2"></i> Çıkış Yap</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" class="nav-item nav-link"><i class="fa fa-sign-in-alt mr-1"></i> Giriş Yap</a>
+                            }
+                        </div>
+                        <div class="ml-auto">
+                            <a class="btn" asp-controller="Quote" asp-action="Index">Teklif Al</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
+
+        <!-- Alerts -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="container mt-3">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fa fa-check-circle mr-2"></i> @TempData["SuccessMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="container mt-3">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-triangle mr-2"></i> @TempData["ErrorMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+
+        <!-- Page Body Content -->
+        @RenderBody()
+
+        <!-- Footer Start -->
+        <div class="footer wow fadeIn" data-wow-delay="0.3s">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-contact">
+                            <h2>Genel Merkez</h2>
+                            <p><i class="fa fa-map-marker-alt"></i>@settings.Address</p>
+                            <p><i class="fa fa-phone-alt"></i>@settings.Phone</p>
+                            <p><i class="fa fa-envelope"></i>@settings.Email</p>
+                            <div class="footer-social">
+                                @if (!string.IsNullOrEmpty(settings.FacebookUrl)) { <a href="@settings.FacebookUrl" target="_blank"><i class="fab fa-facebook-f"></i></a> }
+                                @if (!string.IsNullOrEmpty(settings.InstagramUrl)) { <a href="@settings.InstagramUrl" target="_blank"><i class="fab fa-instagram"></i></a> }
+                                @if (!string.IsNullOrEmpty(settings.LinkedInUrl)) { <a href="@settings.LinkedInUrl" target="_blank"><i class="fab fa-linkedin-in"></i></a> }
+                                @if (!string.IsNullOrEmpty(settings.YouTubeUrl)) { <a href="@settings.YouTubeUrl" target="_blank"><i class="fab fa-youtube"></i></a> }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-link">
+                            <h2>Hizmetlerimiz</h2>
+                            <a asp-controller="Services" asp-action="Detail" asp-route-slug="luks-konut-rezidans-insaati">Konut Projeleri</a>
+                            <a asp-controller="Services" asp-action="Detail" asp-route-slug="ticari-yapilar-plaza-projeleri">Ticari Yapılar</a>
+                            <a asp-controller="Services" asp-action="Detail" asp-route-slug="endustriyel-tesisler-lojistik">Endüstriyel Yapılar</a>
+                            <a asp-controller="Services" asp-action="Detail" asp-route-slug="kentsel-donusum-guclendirme">Kentsel Dönüşüm</a>
+                            <a asp-controller="Services" asp-action="Detail" asp-route-slug="mimari-tasarim-proje-yonetimi">Proje Yönetimi</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-link">
+                            <h2>Faydalı Sayfalar</h2>
+                            <a asp-controller="Home" asp-action="About">Hakkımızda</a>
+                            <a asp-controller="Contact" asp-action="Index">İletişim</a>
+                            <a asp-controller="Projects" asp-action="Index">Projelerimiz</a>
+                            <a asp-controller="Blog" asp-action="Index">Haberler</a>
+                            <a asp-controller="Quote" asp-action="Index">Teklif Al</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="newsletter">
+                            <h2>E-Bülten</h2>
+                            <p>
+                                İnşaat sektöründeki gelişmelerden ve yeni projelerimizden haberdar olmak için e-bültenimize kaydolun.
+                            </p>
+                            <form method="post" asp-controller="Contact" asp-action="Index">
+                                <div class="form">
+                                    <input type="email" name="Email" class="form-control" placeholder="E-posta adresiniz" required>
+                                    <button type="submit" class="btn">Gönder</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container footer-menu">
+                <div class="f-menu">
+                    <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                    <a asp-controller="Home" asp-action="About">Hakkımızda</a>
+                    <a asp-controller="Services" asp-action="Index">Hizmetler</a>
+                    <a asp-controller="Projects" asp-action="Index">Projeler</a>
+                    <a asp-controller="Contact" asp-action="Index">İletişim</a>
+                </div>
+            </div>
+            <div class="container copyright">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; @DateTime.UtcNow.Year <a asp-controller="Home" asp-action="Index">NexaBuild Yapı</a>, Tüm Hakları Saklıdır.</p>
+                    </div>
+                    <div class="col-md-6 text-md-right">
+                        <p>Güvenle İnşa Ediyoruz, Geleceği Şekillendiriyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/wow/wow.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="~/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/counterup/counterup.min.js"></script>
+    <script src="~/lib/slick/slick.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="~/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

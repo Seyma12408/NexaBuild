@@ -1,0 +1,118 @@
+@model List<NexaBuild.Entities.QuoteRequest>
+@{
+    ViewData["Title"] = "Teklif Talepleri Yönetimi";
+    var activeStatus = ViewBag.ActiveStatus as NexaBuild.Entities.QuoteStatus?;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Teklif Talepleri</h4>
+        <p class="text-secondary small mb-0">Müşterilerden gelen inşaat ve proje fiyat teklifi talepleri.</p>
+    </div>
+</div>
+
+<!-- Filter Badges -->
+<div class="d-flex gap-2 mb-4 flex-wrap">
+    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index" class="btn btn-sm @(!activeStatus.HasValue ? "btn-nb-primary" : "btn-outline-secondary")">
+        Tümü (@Model.Count)
+    </a>
+    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index" asp-route-status="New" class="btn btn-sm @(activeStatus == QuoteStatus.New ? "btn-warning text-dark" : "btn-outline-secondary")">
+        Yeni / Bekleyen
+    </a>
+    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index" asp-route-status="Reviewing" class="btn btn-sm @(activeStatus == QuoteStatus.Reviewing ? "btn-info text-dark" : "btn-outline-secondary")">
+        İnceleniyor
+    </a>
+    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index" asp-route-status="Contacted" class="btn btn-sm @(activeStatus == QuoteStatus.Contacted ? "btn-primary" : "btn-outline-secondary")">
+        İletişime Geçildi
+    </a>
+    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index" asp-route-status="Completed" class="btn btn-sm @(activeStatus == QuoteStatus.Completed ? "btn-success" : "btn-outline-secondary")">
+        Tamamlandı
+    </a>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">
+        <table class="table table-dark-custom align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Müşteri Bilgisi</th>
+                    <th>Proje Türü</th>
+                    <th>Tahmini Bütçe</th>
+                    <th>Ek Dosya</th>
+                    <th>Durum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var q in Model)
+                    {
+                        <tr>
+                            <td class="small text-secondary">@q.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <div class="fw-bold text-white">@q.FullName</div>
+                                <small class="text-secondary">@q.Email &bull; @q.Phone</small>
+                            </td>
+                            <td class="text-light fw-semibold">@q.ProjectType</td>
+                            <td class="small text-secondary">@(q.EstimatedBudget ?? "-")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(q.AttachmentPath))
+                                {
+                                    <a href="@q.AttachmentPath" target="_blank" class="btn btn-sm btn-outline-info" title="Dosyayı İndir">
+                                        <i class="bi bi-paperclip"></i> Ek Var
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary small">Yok</span>
+                                }
+                            </td>
+                            <td>
+                                @if (q.Status == QuoteStatus.New)
+                                {
+                                    <span class="badge bg-warning text-dark">Yeni</span>
+                                }
+                                else if (q.Status == QuoteStatus.Reviewing)
+                                {
+                                    <span class="badge bg-info text-dark">İnceleniyor</span>
+                                }
+                                else if (q.Status == QuoteStatus.Contacted)
+                                {
+                                    <span class="badge bg-primary">İletişime Geçildi</span>
+                                }
+                                else if (q.Status == QuoteStatus.Completed)
+                                {
+                                    <span class="badge bg-success">Tamamlandı</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Reddedildi</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="d-inline-flex gap-1">
+                                    <a asp-area="Admin" asp-controller="QuoteRequests" asp-action="Detail" asp-route-id="@q.Id" class="btn btn-sm btn-outline-light" title="Detay">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <form asp-area="Admin" asp-controller="QuoteRequests" asp-action="Delete" asp-route-id="@q.Id" method="post" class="d-inline" onsubmit="return confirm('Bu teklif talebini silmek istediğinizden emin misiniz?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">Kriterlere uygun teklif talebi bulunamadı.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

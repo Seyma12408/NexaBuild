@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Erişim Reddedildi";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Erişim Reddedildi (403)</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a href="javascript:void(0)">Erişim Engellendi</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<div class="contact py-5 text-center" style="background: #ffffff;">
+    <div class="container py-5">
+        <h1 class="display-2 font-weight-bold text-danger">403</h1>
+        <h2 class="font-weight-bold mb-3" style="color: #030f27;">Bu Sayfaya Erişim Yetkiniz Yok</h2>
+        <p class="lead text-muted max-w-700 mx-auto mb-4" style="max-width: 600px;">
+            Görüntülemeye çalıştığınız yönetim veya kullanıcı sayfasına erişmek için gerekli rol yetkisine sahip değilsiniz.
+        </p>
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn mr-2" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 12px 25px;">
+                <i class="fa fa-home mr-2"></i> Ana Sayfaya Dön
+            </a>
+            <a asp-controller="Account" asp-action="Login" class="btn" style="background: #030f27; color: #ffffff; font-weight: 600; padding: 12px 25px;">
+                <i class="fa fa-sign-in-alt mr-2"></i> Farklı Hesapla Giriş Yap
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+@model List<NexaBuild.Areas.Admin.Controllers.UserViewModel>
+@{
+    ViewData["Title"] = "Kullanıcı & Rol Yönetimi";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Kullanıcı & Rol Yönetimi</h4>
+        <p class="text-secondary small mb-0">Platforma kayıtlı tüm üyeleri ve yönetici yetkilerini kontrol edin.</p>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">
+        <table class="table table-dark-custom align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Kayıt Tarihi</th>
+                    <th>Ad Soyad</th>
+                    <th>E-Posta</th>
+                    <th>Telefon</th>
+                    <th>Roller</th>
+                    <th>Durum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td class="small text-secondary">@u.CreatedAt.ToString("dd.MM.yyyy")</td>
+                        <td class="fw-bold text-white">@u.FullName</td>
+                        <td class="text-light">@u.Email</td>
+                        <td class="small text-secondary">@(u.PhoneNumber ?? "-")</td>
+                        <td>
+                            @foreach (var r in u.Roles)
+                            {
+                                <span class="badge @(r == "Admin" ? "bg-danger" : "bg-primary") me-1">@r</span>
+                            }
+                        </td>
+                        <td>
+                            @if (u.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Pasif</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <form asp-area="Admin" asp-controller="Users" asp-action="ToggleAdminRole" asp-route-id="@u.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm @(u.Roles.Contains("Admin") ? "btn-outline-warning" : "btn-outline-info")" title="@(u.Roles.Contains("Admin") ? "Admin Yetkisini Al" : "Admin Yap")">
+                                        <i class="bi bi-shield-lock"></i> @(u.Roles.Contains("Admin") ? "Adminliği Kaldır" : "Admin Yap")
+                                    </button>
+                                </form>
+                                <form asp-area="Admin" asp-controller="Users" asp-action="ToggleStatus" asp-route-id="@u.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm @(u.IsActive ? "btn-outline-danger" : "btn-outline-success")" title="@(u.IsActive ? "Hesabı Dondur" : "Aktif Et")">
+                                        <i class="bi @(u.IsActive ? "bi-person-x" : "bi-person-check")"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

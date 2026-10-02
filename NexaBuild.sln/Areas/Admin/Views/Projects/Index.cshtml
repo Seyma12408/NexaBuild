@@ -1,0 +1,108 @@
+@model List<NexaBuild.Entities.Project>
+@{
+    ViewData["Title"] = "Proje Yönetimi";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Tüm Projeler</h4>
+        <p class="text-secondary small mb-0">Platformda yer alan konut, ticari ve sanayi projelerini yönetin.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Projects" asp-action="Create" class="btn btn-nb-primary py-2 px-3 fs-6">
+        <i class="bi bi-plus-lg me-1"></i> Yeni Proje Ekle
+    </a>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">
+        <table class="table table-dark-custom align-middle mb-0">
+            <thead>
+                <tr>
+                    <th style="width: 70px;">Görsel</th>
+                    <th>Proje Adı & Lokasyon</th>
+                    <th>Kategori</th>
+                    <th>Durum</th>
+                    <th>İlerleme</th>
+                    <th>Öne Çıkan</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@p.CoverImageUrl" alt="@p.Title" class="rounded" style="width: 60px; height: 45px; object-fit: cover;" />
+                            </td>
+                            <td>
+                                <div class="fw-bold text-white">@p.Title</div>
+                                <small class="text-secondary"><i class="bi bi-geo-alt me-1"></i>@p.Location</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-dark border border-secondary text-light">@p.Category?.Name</span>
+                            </td>
+                            <td>
+                                @if (p.Status == ProjectStatus.Ongoing)
+                                {
+                                    <span class="badge bg-warning text-dark">Devam Ediyor</span>
+                                }
+                                else if (p.Status == ProjectStatus.Completed)
+                                {
+                                    <span class="badge bg-success">Tamamlandı</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@p.Status</span>
+                                }
+                            </td>
+                            <td style="min-width: 120px;">
+                                <div class="d-flex justify-content-between small text-secondary mb-1">
+                                    <span>%@p.ProgressPercentage</span>
+                                </div>
+                                <div class="progress" style="height: 5px; background-color: #2A2E37;">
+                                    <div class="progress-bar bg-warning" style="width: @p.ProgressPercentage%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (p.IsFeatured)
+                                {
+                                    <span class="badge bg-primary"><i class="bi bi-star-fill me-1"></i> Evet</span>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary small">Hayır</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="d-inline-flex gap-1">
+                                    <a asp-area="Admin" asp-controller="Projects" asp-action="Gallery" asp-route-id="@p.Id" class="btn btn-sm btn-outline-info" title="Galeri Yönetimi">
+                                        <i class="bi bi-images"></i>
+                                    </a>
+                                    <a asp-area="Admin" asp-controller="Projects" asp-action="Stages" asp-route-id="@p.Id" class="btn btn-sm btn-outline-warning" title="Şantiye Aşamaları">
+                                        <i class="bi bi-bar-chart-steps"></i>
+                                    </a>
+                                    <a asp-area="Admin" asp-controller="Projects" asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-light" title="Düzenle">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form asp-area="Admin" asp-controller="Projects" asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline" onsubmit="return confirm('Bu projeyi ve tüm ilişkili verileri silmek istediğinizden emin misiniz?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">Henüz proje eklenmemiş.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

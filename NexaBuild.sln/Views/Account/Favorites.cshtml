@@ -1,0 +1,88 @@
+@model List<NexaBuild.Entities.Favorite>
+@{
+    ViewData["Title"] = "Favori Projelerim";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Favori Projelerim</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Account" asp-action="Favorites">Favorilerim</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Panel Content -->
+<div class="contact py-5" style="background: #f8f9fa;">
+    <div class="container py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <partial name="_UserNav" />
+            </div>
+
+            <!-- Favorites Content -->
+            <div class="col-lg-9">
+                <div class="p-4 p-md-5 bg-white rounded shadow-sm" style="border: 1px solid #e9ecef;">
+                    <h3 class="mb-4 border-bottom pb-3 font-weight-bold" style="color: #030f27;">Kayıtlı Favori Projeleriniz</h3>
+
+                    @if (Model == null || !Model.Any())
+                    {
+                        <div class="text-center py-5">
+                            <i class="fa fa-heart-broken fa-3x text-muted mb-3"></i>
+                            <h5 class="mt-2 font-weight-bold">Henüz favorilere eklenmiş bir projeniz yok.</h5>
+                            <p class="text-muted small">Projelerimizi inceleyerek favorilerinize ekleyebilirsiniz.</p>
+                            <a asp-controller="Projects" asp-action="Index" class="btn" style="background: #fdbe33; color: #030f27; font-weight: 700;">Projeleri İncele</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            @foreach (var fav in Model)
+                            {
+                                if (fav.Project != null)
+                                {
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card h-100 shadow-sm border-0" style="border-radius: 8px; overflow: hidden;">
+                                            <img src="@fav.Project.CoverImageUrl" alt="@fav.Project.Title" style="height: 180px; object-fit: cover;" class="card-img-top" />
+                                            <div class="card-body d-flex flex-column justify-content-between p-3">
+                                                <div>
+                                                    <span class="badge badge-warning text-dark mb-2">@(fav.Project.Category?.Name ?? "Konut")</span>
+                                                    <h5 class="card-title font-weight-bold mb-1">
+                                                        <a asp-controller="Projects" asp-action="Detail" asp-route-slug="@fav.Project.Slug" class="text-dark">
+                                                            @fav.Project.Title
+                                                        </a>
+                                                    </h5>
+                                                    <p class="card-text text-muted small mb-2"><i class="fa fa-map-marker-alt text-warning mr-1"></i> @fav.Project.Location</p>
+                                                </div>
+                                                <div class="pt-2 border-top d-flex justify-content-between align-items-center">
+                                                    <a asp-controller="Projects" asp-action="Detail" asp-route-slug="@fav.Project.Slug" class="font-weight-bold small text-dark">
+                                                        Detayları İncele <i class="fa fa-arrow-right text-warning ml-1"></i>
+                                                    </a>
+                                                    <form asp-controller="Account" asp-action="ToggleFavorite" method="post" class="d-inline">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="projectId" value="@fav.ProjectId" />
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Favorilerden Çıkar">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

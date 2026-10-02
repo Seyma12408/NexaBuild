@@ -1,0 +1,177 @@
+@{
+    ViewData["Title"] = "Hakkımızda";
+    var setting = ViewBag.Setting as NexaBuild.Entities.SiteSetting ?? new NexaBuild.Entities.SiteSetting();
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Hakkımızda</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Home" asp-action="About">Hakkımızda</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- About Start -->
+<div class="about wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-6">
+                <div class="about-img">
+                    <img src="~/img/about.jpg" alt="NexaBuild Yapı">
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6">
+                <div class="section-header text-left">
+                    <p>NexaBuild Yapı'ya Hoş Geldiniz</p>
+                    <h2>15+ Yıllık İnşaat & Mühendislik Mirası</h2>
+                </div>
+                <div class="about-text">
+                    <p>
+                        NexaBuild Yapı; konut, ticari yapı, endüstriyel tesis ve altyapı projelerinde güvenilir, yenilikçi ve sürdürülebilir çözümler sunan Türkiye merkezli bir yapı şirketidir.
+                    </p>
+                    <p>
+                        Her projemizde modern mimarinin zarafetini, yüksek mukavemetli malzeme teknolojisi ve titiz şantiye yönetimiyle birleştiriyoruz. Konuttan endüstriyel tesislere, kentsel dönüşümden karma yaşam projelerine kadar geniş bir yelpazede sürdürülebilir, çevreye duyarlı ve yüksek yatırım getirisi sağlayan projeler üretiyoruz.
+                    </p>
+                    <p>
+                        Deprem güvenliği, enerji verimliliği ve ergonomiyi bir araya getirerek, insan hayatını her şeyin üzerinde tutan güvenli yapılar inşa etmeye kararlılıkla devam ediyoruz.
+                    </p>
+                    <a class="btn" asp-controller="Projects" asp-action="Index">Projelerimizi İnceleyin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+<!-- Fact Start -->
+<div class="fact">
+    <div class="container-fluid">
+        <div class="row counters">
+            <div class="col-md-6 fact-left wow slideInLeft">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-worker"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(setting.StatsExpertEngineers > 0 ? setting.StatsExpertEngineers : 85)</h2>
+                            <p>Uzman Çalışan</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-building"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(setting.StatsSatisfiedClients > 0 ? setting.StatsSatisfiedClients : 485)</h2>
+                            <p>Mutlu Müşteri</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 fact-right wow slideInRight">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-address"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(setting.StatsProjectsCompleted > 0 ? setting.StatsProjectsCompleted : 120)</h2>
+                            <p>Tamamlanan Proje</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-crane"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">18</h2>
+                            <p>Şehirde Faaliyet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fact End -->
+
+
+<!-- FAQs Start -->
+<div class="faqs">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Sıkça Sorulan Sorular</p>
+            <h2>Merak Ettikleriniz</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="accordion-1">
+                    <div class="card wow fadeInLeft" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseOne">
+                                Projelerinizde deprem güvenliği nasıl sağlanıyor?
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Tüm projelerimiz en son Türkiye Deprem Bina Yönetmeliği'ne uygun olarak, C35/C50 yüksek mukavemetli beton, radye jeneratör temeller ve sismik izolatör teknolojileriyle tasarlanmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseTwo">
+                                Proje teslim süreleriniz ve gecikme garantiniz var mı?
+                            </a>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Sözleşmede belirtilen iş programı BIM ve Primavera yazılımlarıyla günlük olarak takip edilir. Mücbir sebepler hariç tüm teslimatlarımız noter onaylı taahhüt sürelerine tabidir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="accordion-2">
+                    <div class="card wow fadeInRight" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseFour">
+                                Fiyat teklifi ve keşif süreci ücretli midir?
+                            </a>
+                        </div>
+                        <div id="collapseFour" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Hayır. Sitemizdeki Teklif Al formunu doldurduğunuzda veya bize ulaştığınızda uzman mühendislerimiz yerinde ön keşif ve fizibilite raporunu tamamen ücretsiz sunmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseFive">
+                                İnşaat sürecini çevrimiçi olarak takip edebilir miyim?
+                            </a>
+                        </div>
+                        <div id="collapseFive" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Evet. NexaBuild kullanıcı paneli üzerinden projenizin anlık aşama yüzdesini, şantiye fotoğraflarını ve teslim takvimini canlı olarak izleyebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FAQs End -->

@@ -1,0 +1,68 @@
+@model List<NexaBuild.Entities.Service>
+@{
+    ViewData["Title"] = "Hizmet Yönetimi";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Kurumsal Hizmetler</h4>
+        <p class="text-secondary small mb-0">İnşaat ve mühendislik hizmetlerinizi yönetin.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Services" asp-action="Create" class="btn btn-nb-primary py-2 px-3 fs-6">
+        <i class="bi bi-plus-lg me-1"></i> Yeni Hizmet Ekle
+    </a>
+</div>
+
+<div class="admin-card">
+    <div class="table-responsive">
+        <table class="table table-dark-custom align-middle mb-0">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">İkon</th>
+                    <th>Hizmet Başlığı</th>
+                    <th>Özet Açıklama</th>
+                    <th>Sıra</th>
+                    <th>Durum</th>
+                    <th class="text-end">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="rounded p-2 text-center bg-dark text-gold" style="color: var(--nb-gold-500); width: 40px; height: 40px;">
+                                <i class="bi @(s.Icon ?? "bi-buildings") fs-5"></i>
+                            </div>
+                        </td>
+                        <td class="fw-bold text-white">@s.Title</td>
+                        <td class="small text-secondary text-truncate" style="max-width: 300px;">@s.Summary</td>
+                        <td>@s.DisplayOrder</td>
+                        <td>
+                            @if (s.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Pasif</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <a asp-area="Admin" asp-controller="Services" asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-outline-light" title="Düzenle">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-area="Admin" asp-controller="Services" asp-action="Delete" asp-route-id="@s.Id" method="post" class="d-inline" onsubmit="return confirm('Bu hizmeti silmek istediğinizden emin misiniz?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

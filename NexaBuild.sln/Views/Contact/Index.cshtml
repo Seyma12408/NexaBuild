@@ -1,0 +1,99 @@
+@model NexaBuild.DTOs.ContactMessageCreateDto
+@{
+    ViewData["Title"] = "İletişim";
+    var setting = ViewBag.Setting as NexaBuild.Entities.SiteSetting ?? new NexaBuild.Entities.SiteSetting();
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>İletişim</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Contact" asp-action="Index">İletişim</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Contact Start -->
+<div class="contact wow fadeInUp">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Bize Ulaşın</p>
+            <h2>Her Türlü Soru ve Proje Talebiniz İçin Yanınızdayız</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="flaticon-address"></i>
+                        <div class="contact-text">
+                            <h2>Genel Merkez</h2>
+                            <p>@setting.Address</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="flaticon-call"></i>
+                        <div class="contact-text">
+                            <h2>Telefon</h2>
+                            <p><a href="tel:@setting.Phone" class="text-dark">@setting.Phone</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="flaticon-send-mail"></i>
+                        <div class="contact-text">
+                            <h2>E-posta</h2>
+                            <p><a href="mailto:@setting.Email" class="text-dark">@setting.Email</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="flaticon-calendar"></i>
+                        <div class="contact-text">
+                            <h2>Çalışma Saatleri</h2>
+                            <p>@(string.IsNullOrEmpty(setting.WorkingHours) ? "Pazartesi - Cuma: 08:30 - 18:00" : setting.WorkingHours)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contact-form">
+                    <form asp-controller="Contact" asp-action="Index" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 font-weight-bold"></div>
+
+                        <div class="control-group mb-3">
+                            <input type="text" asp-for="FullName" class="form-control" placeholder="Adınız Soyadınız *" required="required" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+                        <div class="control-group mb-3">
+                            <input type="email" asp-for="Email" class="form-control" placeholder="E-posta Adresiniz *" required="required" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="control-group mb-3">
+                            <input type="tel" asp-for="Phone" class="form-control" placeholder="Telefon Numaranız (+90 5XX XXX XX XX)" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+                        <div class="control-group mb-3">
+                            <input type="text" asp-for="Subject" class="form-control" placeholder="Konu *" required="required" />
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+                        <div class="control-group mb-3">
+                            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Mesajınız *" required="required"></textarea>
+                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        </div>
+                        <div>
+                            <button class="btn btn-block" type="submit" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 14px;">Mesaj Gönder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->

@@ -1,0 +1,82 @@
+@model NexaBuild.DTOs.ServiceDto
+@{
+    ViewData["Title"] = "Hizmeti Düzenle: " + Model.Title;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Hizmeti Düzenle</h4>
+        <p class="text-secondary small mb-0">@Model.Title hizmetini güncelleyin.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Services" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Listeye Dön
+    </a>
+</div>
+
+<div class="admin-card">
+    <form asp-area="Admin" asp-controller="Services" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ImageUrl" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <label asp-for="Title" class="form-label small fw-semibold">Hizmet Başlığı <span class="text-danger">*</span></label>
+                <input asp-for="Title" class="form-control py-2" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Icon" class="form-label small fw-semibold">Bootstrap İkon Class</label>
+                <input asp-for="Icon" class="form-control py-2" />
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Summary" class="form-label small fw-semibold">Özet Açıklama <span class="text-danger">*</span></label>
+                <textarea asp-for="Summary" rows="2" class="form-control"></textarea>
+                <span asp-validation-for="Summary" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Description" class="form-label small fw-semibold">Detaylı Açıklama <span class="text-danger">*</span></label>
+                <textarea asp-for="Description" rows="6" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Features" class="form-label small fw-semibold">Öne Çıkan Standartlar / Maddeler (Her satıra bir özellik)</label>
+                <textarea asp-for="Features" rows="4" class="form-control"></textarea>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="ImageFile" class="form-label small fw-semibold">Kapak Görselini Değiştir</label>
+                <input asp-for="ImageFile" type="file" class="form-control py-2" />
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="mt-2">
+                        <img src="@Model.ImageUrl" alt="Hizmet Görseli" class="rounded" style="height: 60px;" />
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="DisplayOrder" class="form-label small fw-semibold">Sıralama Önceliği</label>
+                <input asp-for="DisplayOrder" type="number" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-check mt-4">
+                    <input asp-for="IsActive" class="form-check-input" />
+                    <label asp-for="IsActive" class="form-check-label text-light">Aktif Olarak Yayınla</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 border-top border-secondary border-opacity-25">
+            <button type="submit" class="btn btn-nb-primary px-4 py-2">
+                <i class="bi bi-save me-1"></i> Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>

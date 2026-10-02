@@ -1,0 +1,519 @@
+@model NexaBuild.Controllers.HomeViewModel
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<!-- Carousel Start -->
+<div id="carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel" data-slide-to="1"></li>
+        <li data-target="#carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/img/carousel-1.jpg" alt="Carousel Image">
+            <div class="carousel-caption">
+                <p class="animated fadeInRight">NexaBuild Yapı & Mühendislik</p>
+                <h1 class="animated fadeInLeft">Geleceği Güvenle İnşa Ediyoruz</h1>
+                <p class="d-none d-md-block animated fadeInUp" style="max-width: 700px; margin: 0 auto 25px; color: #ffffff; font-size: 16px;">
+                    Modern mühendislik anlayışımız, deneyimli ekibimiz ve kaliteli yapı çözümlerimizle Türkiye'nin geleceğine değer katıyoruz.
+                </p>
+                <div>
+                    <a class="btn animated fadeInUp mr-2" asp-controller="Projects" asp-action="Index">Projelerimizi İnceleyin</a>
+                    <a class="btn animated fadeInUp btn-outline-light" asp-controller="Quote" asp-action="Index">Teklif Alın</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/img/carousel-2.jpg" alt="Carousel Image">
+            <div class="carousel-caption">
+                <p class="animated fadeInRight">Lüks Konut & Yaşam Alanları</p>
+                <h1 class="animated fadeInLeft">Hayallerinizdeki Yaşamı İnşa Ediyoruz</h1>
+                <p class="d-none d-md-block animated fadeInUp" style="max-width: 700px; margin: 0 auto 25px; color: #ffffff; font-size: 16px;">
+                    Depreme tam dayanıklı, estetik ve çağdaş mimari detaylarla donatılmış konut projeleri.
+                </p>
+                <div>
+                    <a class="btn animated fadeInUp mr-2" asp-controller="Projects" asp-action="Index">Projelerimiz</a>
+                    <a class="btn animated fadeInUp btn-outline-light" asp-controller="Quote" asp-action="Index">Teklif Alın</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/img/carousel-3.jpg" alt="Carousel Image">
+            <div class="carousel-caption">
+                <p class="animated fadeInRight">Ticari & Endüstriyel Yapılar</p>
+                <h1 class="animated fadeInLeft">İş Dünyası İçin Sağlam Temeller</h1>
+                <p class="d-none d-md-block animated fadeInUp" style="max-width: 700px; margin: 0 auto 25px; color: #ffffff; font-size: 16px;">
+                    A+ plaza binaları, lojistik depolar ve üretim tesislerinde anahtar teslim taahhüt hizmetleri.
+                </p>
+                <div>
+                    <a class="btn animated fadeInUp mr-2" asp-controller="Services" asp-action="Index">Hizmetlerimiz</a>
+                    <a class="btn animated fadeInUp btn-outline-light" asp-controller="Contact" asp-action="Index">İletişime Geçin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Önceki</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Sonraki</span>
+    </a>
+</div>
+<!-- Carousel End -->
+
+
+<!-- Feature Start-->
+<div class="feature wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-4 col-md-12">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="flaticon-worker"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Uzman Kadro</h3>
+                        <p>Alanında yetkin inşaat mühendisleri, mimarlar ve deneyimli şantiye ekipleriyle çalışıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="flaticon-building"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Kaliteli Yapı Çözümleri</h3>
+                        <p>1. sınıf TSE & CE belgeli inşaat malzemeleri ve deprem yönetmeliğine tam uyumlu statik tasarımlar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="flaticon-call"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>7/24 Kesintisiz Destek</h3>
+                        <p>Proje planlamasından teslim sonrasına kadar her aşamada müşterilerimizin yanındayız.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature End-->
+
+
+<!-- About Start -->
+<div class="about wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-6">
+                <div class="about-img">
+                    <img src="~/img/about.jpg" alt="NexaBuild Hakkında">
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6">
+                <div class="section-header text-left">
+                    <p>NexaBuild Yapı'ya Hoş Geldiniz</p>
+                    <h2>15+ Yıllık Sektör Deneyimi</h2>
+                </div>
+                <div class="about-text">
+                    <p>
+                        NexaBuild Yapı; konut, ticari yapı, endüstriyel tesis ve altyapı projelerinde güvenilir, yenilikçi ve sürdürülebilir çözümler sunan Türkiye merkezli bir yapı şirketidir.
+                    </p>
+                    <p>
+                        Kuruluşumuzdan bu yana temel ilkemiz; insan güvenliğini ve çevre duyarlılığını ön planda tutarak zamanında ve kusursuz projeler teslim etmektir. Türkiye'nin dört bir yanında yükselen projelerimizle güven inşa etmeye devam ediyoruz.
+                    </p>
+                    <a class="btn" asp-controller="Home" asp-action="About">Daha Fazla Bilgi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+<!-- Fact Start -->
+<div class="fact">
+    <div class="container-fluid">
+        <div class="row counters">
+            <div class="col-md-6 fact-left wow slideInLeft">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-worker"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(Model.Setting.StatsExpertEngineers > 0 ? Model.Setting.StatsExpertEngineers : 85)</h2>
+                            <p>Uzman Çalışan</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-building"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(Model.Setting.StatsSatisfiedClients > 0 ? Model.Setting.StatsSatisfiedClients : 485)</h2>
+                            <p>Mutlu Müşteri</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 fact-right wow slideInRight">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-address"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">@(Model.Setting.StatsProjectsCompleted > 0 ? Model.Setting.StatsProjectsCompleted : 120)</h2>
+                            <p>Tamamlanan Proje</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="fact-icon">
+                            <i class="flaticon-crane"></i>
+                        </div>
+                        <div class="fact-text">
+                            <h2 data-toggle="counter-up">18</h2>
+                            <p>Şehirde Faaliyet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fact End -->
+
+
+<!-- Service Start -->
+<div class="service">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Hizmetlerimiz</p>
+            <h2>Sunduğumuz Profesyonel Yapı Çözümleri</h2>
+        </div>
+        <div class="row">
+            @if (Model.Services != null && Model.Services.Any())
+            {
+                int delay = 1;
+                foreach (var service in Model.Services)
+                {
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.@(delay)s">
+                        <div class="service-item">
+                            <div class="service-img">
+                                <img src="@service.ImageUrl" alt="@service.Title">
+                                <div class="service-overlay">
+                                    <p>@service.Summary</p>
+                                </div>
+                            </div>
+                            <div class="service-text">
+                                <h3>@service.Title</h3>
+                                <a class="btn" asp-controller="Services" asp-action="Detail" asp-route-slug="@service.Slug">+</a>
+                            </div>
+                        </div>
+                    </div>
+                    delay = (delay % 6) + 1;
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">Hizmetlerimiz güncellenmektedir.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+
+
+<!-- Video Start -->
+<div class="video wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <button type="button" class="btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
+            <span></span>
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>        
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Video End -->
+
+
+<!-- Team Start -->
+<div class="team">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Uzman Kadromuz</p>
+            <h2>Mühendis ve Mimarlarımız</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="~/img/team-1.jpg" alt="Selim Aksoy">
+                    </div>
+                    <div class="team-text">
+                        <h2>Selim Aksoy</h2>
+                        <p>Kurucu & Başmimar</p>
+                    </div>
+                    <div class="team-social">
+                        <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="~/img/team-2.jpg" alt="Hakan Çelik">
+                    </div>
+                    <div class="team-text">
+                        <h2>Hakan Çelik</h2>
+                        <p>İnşaat Yüksek Mühendisi</p>
+                    </div>
+                    <div class="team-social">
+                        <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="~/img/team-3.jpg" alt="Ayşe Demir">
+                    </div>
+                    <div class="team-text">
+                        <h2>Ayşe Demir</h2>
+                        <p>BIM & Tasarım Yöneticisi</p>
+                    </div>
+                    <div class="team-social">
+                        <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="team-item">
+                    <div class="team-img">
+                        <img src="~/img/team-4.jpg" alt="Bülent Yıldız">
+                    </div>
+                    <div class="team-text">
+                        <h2>Bülent Yıldız</h2>
+                        <p>Şantiye Koordinatörü</p>
+                    </div>
+                    <div class="team-social">
+                        <a class="social-tw" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="social-fb" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-li" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-in" href=""><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Team End -->
+
+
+<!-- FAQs Start -->
+<div class="faqs">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Sıkça Sorulan Sorular</p>
+            <h2>Merak Ettikleriniz</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="accordion-1">
+                    <div class="card wow fadeInLeft" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseOne">
+                                Projelerinizde deprem güvenliği nasıl sağlanıyor?
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Tüm projelerimiz en son Türkiye Deprem Bina Yönetmeliği'ne uygun olarak, C35/C50 yüksek mukavemetli beton, radye jeneratör temeller ve sismik izolatör teknolojileriyle tasarlanmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseTwo">
+                                Proje teslim süreleriniz ve gecikme garantiniz var mı?
+                            </a>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Sözleşmede belirtilen iş programı BIM ve Primavera yazılımlarıyla günlük olarak takip edilir. Mücbir sebepler hariç tüm teslimatlarımız noter onaylı taahhüt sürelerine tabidir.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInLeft" data-wow-delay="0.3s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseThree">
+                                Kentsel dönüşüm sürecinde hak sahiplerine hangi destekler sağlanıyor?
+                            </a>
+                        </div>
+                        <div id="collapseThree" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Riskli yapı tespiti, belediye ruhsat işlemleri, kira yardımı başvuruları ve taşınma organizasyonu dahil tüm süreç hukuk ekibimizce şeffafça yürütülmektedir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="accordion-2">
+                    <div class="card wow fadeInRight" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseFour">
+                                Fiyat teklifi ve keşif süreci ücretli midir?
+                            </a>
+                        </div>
+                        <div id="collapseFour" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Hayır. Sitemizdeki Teklif Al formunu doldurduğunuzda veya bize ulaştığınızda uzman mühendislerimiz yerinde ön keşif ve fizibilite raporunu tamamen ücretsiz sunmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseFive">
+                                İnşaat sürecini çevrimiçi olarak takip edebilir miyim?
+                            </a>
+                        </div>
+                        <div id="collapseFive" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Evet. NexaBuild kullanıcı paneli üzerinden projenizin anlık aşama yüzdesini, şantiye fotoğraflarını ve teslim takvimini canlı olarak izleyebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInRight" data-wow-delay="0.3s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseSix">
+                                Projelerinizde kullanılan malzemelerin garantisi var mıdır?
+                            </a>
+                        </div>
+                        <div id="collapseSix" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Kullanılan tüm yapı elemanları, mekanik tesisat ve cephe sistemleri üretici ve şirketimiz taahhüdü altında 5 ile 10 yıl süreyle garanti kapsamındadır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FAQs End -->
+
+
+<!-- Testimonial Start -->
+<div class="testimonial wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Müşteri Yorumları</p>
+            <h2>Müşterilerimiz Bizim İçin Ne Diyor?</h2>
+        </div>
+        @if (Model.Testimonials != null && Model.Testimonials.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="testimonial-slider-nav">
+                        @foreach (var item in Model.Testimonials)
+                        {
+                            <div class="slider-nav"><img src="@(string.IsNullOrEmpty(item.AvatarUrl) ? "/img/testimonial-1.jpg" : item.AvatarUrl)" alt="@item.FullName"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="testimonial-slider">
+                        @foreach (var item in Model.Testimonials)
+                        {
+                            <div class="slider-item">
+                                <h3>@item.FullName</h3>
+                                <h4>@item.Position @(!string.IsNullOrEmpty(item.Company) ? "- " + item.Company : "")</h4>
+                                <p>"@item.Comment"</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- Testimonial End -->
+
+
+<!-- Blog Start -->
+<div class="blog">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Son Haberler</p>
+            <h2>Blog & Sektörel Makaleler</h2>
+        </div>
+        <div class="row">
+            @if (Model.LatestPosts != null && Model.LatestPosts.Any())
+            {
+                int blogDelay = 1;
+                foreach (var post in Model.LatestPosts)
+                {
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.@(blogDelay)s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="@post.CoverImageUrl" alt="@post.Title">
+                            </div>
+                            <div class="blog-title">
+                                <h3><a asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug" class="text-dark">@post.Title</a></h3>
+                                <a class="btn" asp-controller="Blog" asp-action="Detail" asp-route-slug="@post.Slug">+</a>
+                            </div>
+                            <div class="blog-meta">
+                                <p>Yazar: <a href="javascript:void(0)">@post.Author</a></p>
+                                <p>Kategori: <a href="javascript:void(0)">@(post.Category?.Name ?? "İnşaat")</a></p>
+                            </div>
+                            <div class="blog-text">
+                                <p>@post.Summary</p>
+                            </div>
+                        </div>
+                    </div>
+                    blogDelay += 1;
+                }
+            }
+        </div>
+    </div>
+</div>
+<!-- Blog End -->

@@ -1,0 +1,120 @@
+@model NexaBuild.Entities.Project
+@{
+    ViewData["Title"] = "Şantiye Aşamaları: " + Model.Title;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Şantiye Aşamaları & İlerleme Takibi</h4>
+        <p class="text-secondary small mb-0"><strong class="text-white">@Model.Title</strong> projesinin canlı inşaat kilometre taşları.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Projelere Dön
+    </a>
+</div>
+
+<!-- Add New Stage Card -->
+<div class="admin-card mb-4">
+    <h5 class="fs-6 fw-bold text-white mb-3"><i class="bi bi-plus-circle me-2 text-gold" style="color: var(--nb-gold-500);"></i> Yeni Şantiye Aşaması Tanımla</h5>
+    <form asp-area="Admin" asp-controller="Projects" asp-action="AddStage" method="post" class="row g-3">
+        <input type="hidden" name="projectId" value="@Model.Id" />
+
+        <div class="col-md-4">
+            <label class="form-label small fw-semibold">Aşama Adı <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" placeholder="Örn: Elektrik & Mekanik Tesisat" required />
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Tamamlanma %</label>
+            <input type="number" name="progressPercentage" min="0" max="100" value="0" class="form-control" required />
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label small fw-semibold">Durum</label>
+            <select name="status" class="form-select">
+                <option value="Pending">Beklemede</option>
+                <option value="InProgress">Devam Ediyor</option>
+                <option value="Completed">Tamamlandı</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-nb-primary w-100 py-2">
+                <i class="bi bi-check-lg me-1"></i> Aşamayı Ekle
+            </button>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label small fw-semibold">Aşama Notu / Açıklama (Opsiyonel)</label>
+            <input type="text" name="description" class="form-control" placeholder="Örn: Şantiyede 3. kat borulama çalışmaları tamamlandı." />
+        </div>
+    </form>
+</div>
+
+<!-- Stages List Table -->
+<div class="admin-card">
+    <h5 class="fs-6 fw-bold text-white mb-3">Mevcut Şantiye Kilometre Taşları</h5>
+
+    <div class="table-responsive">
+        <table class="table table-dark-custom align-middle mb-0">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">Sıra</th>
+                    <th>Aşama Adı</th>
+                    <th>Durum</th>
+                    <th>İlerleme</th>
+                    <th>Açıklama</th>
+                    <th class="text-end">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Stages != null && Model.Stages.Any())
+                {
+                    @foreach (var stage in Model.Stages.OrderBy(s => s.Order))
+                    {
+                        <tr>
+                            <td class="text-secondary fw-bold">#@stage.Order</td>
+                            <td class="fw-bold text-white">@stage.Name</td>
+                            <td>
+                                @if (stage.Status == StageStatus.Completed)
+                                {
+                                    <span class="badge bg-success">Tamamlandı</span>
+                                }
+                                else if (stage.Status == StageStatus.InProgress)
+                                {
+                                    <span class="badge bg-warning text-dark">Devam Ediyor</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Beklemede</span>
+                                }
+                            </td>
+                            <td style="min-width: 120px;">
+                                <span class="small text-light">%@stage.ProgressPercentage</span>
+                                <div class="progress" style="height: 4px; background-color: #2A2E37;">
+                                    <div class="progress-bar @(stage.Status == StageStatus.Completed ? "bg-success" : "bg-warning")" style="width: @stage.ProgressPercentage%;"></div>
+                                </div>
+                            </td>
+                            <td class="small text-secondary">@(stage.Description ?? "-")</td>
+                            <td class="text-end">
+                                <form asp-area="Admin" asp-controller="Projects" asp-action="DeleteStage" method="post" class="d-inline" onsubmit="return confirm('Bu aşamayı silmek istediğinizden emin misiniz?');">
+                                    <input type="hidden" name="stageId" value="@stage.Id" />
+                                    <input type="hidden" name="projectId" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">Bu projeye henüz aşama eklenmemiş.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

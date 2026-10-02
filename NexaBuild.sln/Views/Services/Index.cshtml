@@ -1,0 +1,132 @@
+@model List<NexaBuild.Entities.Service>
+@{
+    ViewData["Title"] = "Hizmetlerimiz";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Hizmetlerimiz</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Services" asp-action="Index">Hizmetlerimiz</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Service Start -->
+<div class="service">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Hizmetlerimiz</p>
+            <h2>Sunduğumuz Profesyonel Yapı Çözümleri</h2>
+        </div>
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                int delay = 1;
+                foreach (var service in Model)
+                {
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.@(delay)s">
+                        <div class="service-item">
+                            <div class="service-img">
+                                <img src="@service.ImageUrl" alt="@service.Title">
+                                <div class="service-overlay">
+                                    <p>@service.Summary</p>
+                                </div>
+                            </div>
+                            <div class="service-text">
+                                <h3>@service.Title</h3>
+                                <a class="btn" asp-controller="Services" asp-action="Detail" asp-route-slug="@service.Slug">+</a>
+                            </div>
+                        </div>
+                    </div>
+                    delay = (delay % 6) + 1;
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">Hizmetlerimiz yükleniyor...</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+
+
+<!-- FAQs Start -->
+<div class="faqs">
+    <div class="container">
+        <div class="section-header text-center">
+            <p>Sıkça Sorulan Sorular</p>
+            <h2>Hizmetlerimiz Hakkında</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="accordion-1">
+                    <div class="card wow fadeInLeft" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseOne">
+                                Anahtar teslim taahhüt süreciniz nasıl işler?
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Mimari projelerin çiziminden ruhsat alımına, kaba yapıdan ince işçilik ve iskan onayına kadar tüm aşamalar tek elden, sabit maliyet ve kesin teslim tarihi garantisiyle yönetilir.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInLeft" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseTwo">
+                                Endüstriyel yapılarda zemin ve çelik garantisi veriyor musunuz?
+                            </a>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion-1">
+                            <div class="card-body">
+                                Evet, ağır tonajlı endüstriyel zemin betonları, lazerli mastar uygulamaları ve çelik konstrüksiyon imalatlarımız uluslararası statik normlara uygun olarak sertifikalandırılır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="accordion-2">
+                    <div class="card wow fadeInRight" data-wow-delay="0.1s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseThree">
+                                Mimari tasarım ve 3D görselleştirme desteği sunuyor musunuz?
+                            </a>
+                        </div>
+                        <div id="collapseThree" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Deneyimli mimari ekibimiz ve BIM uzmanlarımız projenin henüz temel aşamasına geçilmeden önce fotogerçekçi 3D renderlar ve sanal tur simülasyonları hazırlar.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card wow fadeInRight" data-wow-delay="0.2s">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" href="#collapseFour">
+                                Proje boyunca hak ediş ve maliyet raporlaması nasıl yapılır?
+                            </a>
+                        </div>
+                        <div id="collapseFour" class="collapse" data-parent="#accordion-2">
+                            <div class="card-body">
+                                Müşterilerimize her ay düzenli olarak şantiye ilerleme raporu, bağımsız yapı denetim tutanakları ve detaylı hak ediş tabloları şeffaf bir şekilde iletilir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FAQs End -->

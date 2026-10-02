@@ -1,0 +1,130 @@
+@model NexaBuild.DTOs.ProjectUpdateDto
+@{
+    ViewData["Title"] = "Projeyi Düzenle: " + Model.Title;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Projeyi Düzenle</h4>
+        <p class="text-secondary small mb-0">@Model.Title projesinin bilgilerini güncelleyin.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Listeye Dön
+    </a>
+</div>
+
+<div class="admin-card">
+    <form asp-area="Admin" asp-controller="Projects" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ExistingCoverImageUrl" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <label asp-for="Title" class="form-label small fw-semibold">Proje Başlığı <span class="text-danger">*</span></label>
+                <input asp-for="Title" class="form-control py-2" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="CategoryId" class="form-label small fw-semibold">Kategori <span class="text-danger">*</span></label>
+                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select py-2"></select>
+                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Location" class="form-label small fw-semibold">Lokasyon / Şehir <span class="text-danger">*</span></label>
+                <input asp-for="Location" class="form-control py-2" />
+                <span asp-validation-for="Location" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="ProjectType" class="form-label small fw-semibold">Proje Türü</label>
+                <input asp-for="ProjectType" class="form-control py-2" />
+            </div>
+
+            <div class="col-12">
+                <label asp-for="ShortDescription" class="form-label small fw-semibold">Kısa Açıklama <span class="text-danger">*</span></label>
+                <textarea asp-for="ShortDescription" rows="2" class="form-control"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Description" class="form-label small fw-semibold">Detaylı Proje Açıklaması <span class="text-danger">*</span></label>
+                <textarea asp-for="Description" rows="6" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="TotalArea" class="form-label small fw-semibold">Toplam Alan</label>
+                <input asp-for="TotalArea" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="NumberOfUnits" class="form-label small fw-semibold">Bağımsız Bölüm</label>
+                <input asp-for="NumberOfUnits" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Status" class="form-label small fw-semibold">Proje Durumu</label>
+                <select asp-for="Status" class="form-select py-2">
+                    <option value="Ongoing">Devam Ediyor</option>
+                    <option value="Completed">Tamamlandı</option>
+                    <option value="Planning">Planlama Aşamasında</option>
+                    <option value="Paused">Duraklatıldı</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="ProgressPercentage" class="form-label small fw-semibold">İlerleme Yüzdesi (0-100)</label>
+                <input asp-for="ProgressPercentage" type="number" min="0" max="100" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="StartDate" class="form-label small fw-semibold">Başlangıç Tarihi</label>
+                <input asp-for="StartDate" type="date" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="EstimatedCompletionDate" class="form-label small fw-semibold">Tahmini Bitiş Tarihi</label>
+                <input asp-for="EstimatedCompletionDate" type="date" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="CompletionDate" class="form-label small fw-semibold">Gerçekleşen Bitiş Tarihi</label>
+                <input asp-for="CompletionDate" type="date" class="form-control py-2" />
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="CoverImageFile" class="form-label small fw-semibold">Kapak Görselini Değiştir</label>
+                <input asp-for="CoverImageFile" type="file" class="form-control py-2" />
+                @if (!string.IsNullOrEmpty(Model.ExistingCoverImageUrl))
+                {
+                    <div class="mt-2">
+                        <span class="text-secondary small d-block mb-1">Mevcut Kapak:</span>
+                        <img src="@Model.ExistingCoverImageUrl" alt="Cover" class="rounded" style="height: 60px;" />
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-check mt-4">
+                    <input asp-for="IsFeatured" class="form-check-input" />
+                    <label asp-for="IsFeatured" class="form-check-label text-light">Öne Çıkar</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="DisplayOrder" class="form-label small fw-semibold">Sıralama Önceliği</label>
+                <input asp-for="DisplayOrder" type="number" class="form-control py-2" />
+            </div>
+        </div>
+
+        <div class="pt-3 border-top border-secondary border-opacity-25">
+            <button type="submit" class="btn btn-nb-primary px-4 py-2">
+                <i class="bi bi-save me-1"></i> Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>

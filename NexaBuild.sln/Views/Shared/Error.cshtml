@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Hata";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>@(ViewBag.Title ?? "Bir Hata Meydana Geldi")</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a href="javascript:void(0)">Hata Durumu</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<div class="contact py-5 text-center" style="background: #ffffff;">
+    <div class="container py-5">
+        <h1 class="display-2 font-weight-bold" style="color: #fdbe33;">
+            @(ViewBag.StatusCode ?? "500")
+        </h1>
+        <h2 class="font-weight-bold mb-3" style="color: #030f27;">@(ViewBag.Title ?? "Beklenmeyen Bir Hata Oluştu")</h2>
+        <p class="lead text-muted max-w-700 mx-auto mb-4" style="max-width: 600px;">
+            @(ViewBag.Message ?? "Aradığınız sayfaya ulaşılamıyor veya teknik bir aksaklık oluştu.")
+        </p>
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn mr-2" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 12px 25px;">
+                <i class="fa fa-home mr-2"></i> Ana Sayfaya Dön
+            </a>
+            <a asp-controller="Contact" asp-action="Index" class="btn" style="background: #030f27; color: #ffffff; font-weight: 600; padding: 12px 25px;">
+                <i class="fa fa-headset mr-2"></i> Bize Ulaşın
+            </a>
+        </div>
+    </div>
+</div>

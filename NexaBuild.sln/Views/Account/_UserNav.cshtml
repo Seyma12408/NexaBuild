@@ -1,0 +1,48 @@
+@{
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<div class="card border-0 shadow-sm p-3 bg-white rounded mb-4" style="border: 1px solid #e9ecef !important;">
+    <div class="d-flex align-items-center p-3 border-bottom mb-3">
+        <div class="rounded-circle d-flex align-items-center justify-content-center bg-dark text-white font-weight-bold mr-3" style="width: 48px; height: 48px; border: 2px solid #fdbe33; flex-shrink: 0;">
+            <i class="fa fa-user" style="color: #fdbe33;"></i>
+        </div>
+        <div style="overflow: hidden;">
+            <h6 class="mb-0 font-weight-bold text-truncate">@User.Identity?.Name</h6>
+            <span class="badge badge-light border text-muted small">Müşteri Hesabı</span>
+        </div>
+    </div>
+
+    <ul class="nav flex-column">
+        <li class="nav-item mb-1">
+            <a class="nav-link rounded px-3 py-2 text-dark d-flex align-items-center @(currentAction == "Profile" ? "font-weight-bold" : "")" style="@(currentAction == "Profile" ? "background: #fdbe33; color: #030f27 !important;" : "")" asp-controller="Account" asp-action="Profile">
+                <i class="fa fa-user-cog mr-2 @(currentAction == "Profile" ? "" : "text-muted")"></i>
+                <span>Profil Bilgilerim</span>
+            </a>
+        </li>
+        <li class="nav-item mb-1">
+            <a class="nav-link rounded px-3 py-2 text-dark d-flex align-items-center @(currentAction == "Quotes" ? "font-weight-bold" : "")" style="@(currentAction == "Quotes" ? "background: #fdbe33; color: #030f27 !important;" : "")" asp-controller="Account" asp-action="Quotes">
+                <i class="fa fa-file-alt mr-2 @(currentAction == "Quotes" ? "" : "text-muted")"></i>
+                <span>Teklif Taleplerim</span>
+            </a>
+        </li>
+        <li class="nav-item mb-1">
+            <a class="nav-link rounded px-3 py-2 text-dark d-flex align-items-center @(currentAction == "Favorites" ? "font-weight-bold" : "")" style="@(currentAction == "Favorites" ? "background: #fdbe33; color: #030f27 !important;" : "")" asp-controller="Account" asp-action="Favorites">
+                <i class="fa fa-heart mr-2 @(currentAction == "Favorites" ? "" : "text-muted")"></i>
+                <span>Favori Projelerim</span>
+            </a>
+        </li>
+        <li class="nav-item mb-1">
+            <a class="nav-link rounded px-3 py-2 text-dark d-flex align-items-center @(currentAction == "Reviews" ? "font-weight-bold" : "")" style="@(currentAction == "Reviews" ? "background: #fdbe33; color: #030f27 !important;" : "")" asp-controller="Account" asp-action="Reviews">
+                <i class="fa fa-comments mr-2 @(currentAction == "Reviews" ? "" : "text-muted")"></i>
+                <span>Yorumlarım</span>
+            </a>
+        </li>
+        <li class="nav-item mt-3 pt-2 border-top">
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-outline-danger btn-block btn-sm py-2 text-left">
+                    <i class="fa fa-sign-out-alt mr-2"></i> Çıkış Yap
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,71 @@
+@model NexaBuild.Entities.Project
+@{
+    ViewData["Title"] = "Proje Galerisi: " + Model.Title;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fs-4 fw-bold text-white mb-1">Fotoğraf Galerisi Yönetimi</h4>
+        <p class="text-secondary small mb-0"><strong class="text-white">@Model.Title</strong> projesine ait görseller.</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Projects" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Projelere Dön
+    </a>
+</div>
+
+<!-- Upload New Image Card -->
+<div class="admin-card mb-4">
+    <h5 class="fs-6 fw-bold text-white mb-3"><i class="bi bi-cloud-arrow-up me-2 text-gold" style="color: var(--nb-gold-500);"></i> Yeni Görsel Yükle</h5>
+    <form asp-area="Admin" asp-controller="Projects" asp-action="UploadGalleryImage" method="post" enctype="multipart/form-data" class="row g-3 align-items-end">
+        <input type="hidden" name="projectId" value="@Model.Id" />
+        
+        <div class="col-md-5">
+            <label class="form-label small fw-semibold">Görsel Seç <span class="text-danger">*</span></label>
+            <input type="file" name="imageFile" class="form-control" required />
+        </div>
+
+        <div class="col-md-5">
+            <label class="form-label small fw-semibold">Görsel Başlığı / Açıklaması</label>
+            <input type="text" name="caption" class="form-control" placeholder="Örn: Gece Aydınlatması ve Havuz" />
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-nb-primary w-100 py-2">
+                <i class="bi bi-upload me-1"></i> Yükle
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Images Grid Card -->
+<div class="admin-card">
+    <h5 class="fs-6 fw-bold text-white mb-3">Mevcut Galeri (@Model.Images.Count Görsel)</h5>
+    
+    @if (Model.Images != null && Model.Images.Any())
+    {
+        <div class="row g-3">
+            @foreach (var img in Model.Images.OrderBy(i => i.DisplayOrder))
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="position-relative rounded overflow-hidden border border-secondary border-opacity-25 bg-dark">
+                        <img src="@img.ImageUrl" alt="@img.Caption" class="w-100" style="height: 180px; object-fit: cover;" />
+                        <div class="p-2 bg-dark text-white d-flex justify-content-between align-items-center">
+                            <span class="small text-truncate text-secondary" style="max-width: 140px;">@(img.Caption ?? "Başlıksız")</span>
+                            <form asp-area="Admin" asp-controller="Projects" asp-action="DeleteGalleryImage" method="post" onsubmit="return confirm('Bu görseli silmek istediğinizden emin misiniz?');">
+                                <input type="hidden" name="imageId" value="@img.Id" />
+                                <input type="hidden" name="projectId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger p-1" title="Sil">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted small py-4 text-center mb-0">Henüz galeriye fotoğraf eklenmemiş.</p>
+    }
+</div>

@@ -1,0 +1,233 @@
+@inject NexaBuild.DataAccess.ApplicationDbContext DbContext
+@{
+    var pendingQuotesCount = DbContext.QuoteRequests.Count(q => q.Status == QuoteStatus.New);
+    var unreadMessagesCount = DbContext.ContactMessages.Count(m => m.Status == MessageStatus.New);
+    var pendingReviewsCount = DbContext.Testimonials.Count(t => t.Status == ReviewStatus.Pending);
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] != null ? ViewData["Title"] + " - " : "")NexaBuild Yönetim Paneli</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Theme & Admin CSS -->
+    <link rel="stylesheet" href="~/css/theme.css" />
+    <style>
+        body {
+            background-color: #0B0D0F;
+            color: #E2E8F0;
+        }
+        .admin-sidebar {
+            background-color: #121519;
+            border-right: 1px solid #22272E;
+        }
+        .admin-topbar {
+            background-color: #121519;
+            border-bottom: 1px solid #22272E;
+            color: #F8FAFC;
+        }
+        .admin-card {
+            background-color: #161A20;
+            border: 1px solid #262C36;
+            color: #F1F5F9;
+        }
+        .table-dark-custom {
+            background-color: #161A20;
+            color: #E2E8F0;
+        }
+        .table-dark-custom th {
+            background-color: #1A1F26;
+            color: #94A3B8;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-color: #262C36;
+        }
+        .table-dark-custom td {
+            border-color: #22272E;
+            vertical-align: middle;
+        }
+        .form-control, .form-select {
+            background-color: #1C2128;
+            border-color: #2D333B;
+            color: #F0F6FC;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #1C2128;
+            border-color: var(--nb-gold-500);
+            color: #FFFFFF;
+            box-shadow: 0 0 0 0.25rem rgba(184, 155, 94, 0.2);
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @Html.AntiForgeryToken()
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none text-white fs-5 fw-bold font-heading">
+                    <i class="bi bi-shield-lock-fill" style="color: var(--nb-gold-500);"></i>
+                    <span>NEXA<span style="color: var(--nb-gold-500);">PANEL</span></span>
+                </a>
+            </div>
+
+            <ul class="admin-sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="px-4 pt-3 pb-1 text-uppercase text-secondary" style="font-size: 0.72rem; letter-spacing: 0.1em; font-weight: 700;">İçerik Yönetimi</li>
+                
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")" asp-area="Admin" asp-controller="Projects" asp-action="Index">
+                        <i class="bi bi-buildings"></i>
+                        <span>Projeler</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categories" ? "active" : "")" asp-area="Admin" asp-controller="Categories" asp-action="Index">
+                        <i class="bi bi-tags"></i>
+                        <span>Proje Kategorileri</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Services" ? "active" : "")" asp-area="Admin" asp-controller="Services" asp-action="Index">
+                        <i class="bi bi-tools"></i>
+                        <span>Hizmetler</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Blog" ? "active" : "")" asp-area="Admin" asp-controller="Blog" asp-action="Index">
+                        <i class="bi bi-newspaper"></i>
+                        <span>Blog & Haberler</span>
+                    </a>
+                </li>
+
+                <li class="px-4 pt-3 pb-1 text-uppercase text-secondary" style="font-size: 0.72rem; letter-spacing: 0.1em; font-weight: 700;">Etkileşim & Talep</li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex justify-content-between align-items-center @(ViewContext.RouteData.Values["controller"]?.ToString() == "QuoteRequests" ? "active" : "")" asp-area="Admin" asp-controller="QuoteRequests" asp-action="Index">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-ruled"></i>
+                            <span>Teklif Talepleri</span>
+                        </div>
+                        @if (pendingQuotesCount > 0)
+                        {
+                            <span class="badge bg-warning text-dark rounded-pill">@pendingQuotesCount</span>
+                        }
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex justify-content-between align-items-center @(ViewContext.RouteData.Values["controller"]?.ToString() == "Messages" ? "active" : "")" asp-area="Admin" asp-controller="Messages" asp-action="Index">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-envelope"></i>
+                            <span>Gelen Mesajlar</span>
+                        </div>
+                        @if (unreadMessagesCount > 0)
+                        {
+                            <span class="badge bg-danger rounded-pill">@unreadMessagesCount</span>
+                        }
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex justify-content-between align-items-center @(ViewContext.RouteData.Values["controller"]?.ToString() == "Testimonials" ? "active" : "")" asp-area="Admin" asp-controller="Testimonials" asp-action="Index">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-chat-heart"></i>
+                            <span>Müşteri Yorumları</span>
+                        </div>
+                        @if (pendingReviewsCount > 0)
+                        {
+                            <span class="badge bg-info text-dark rounded-pill">@pendingReviewsCount</span>
+                        }
+                    </a>
+                </li>
+
+                <li class="px-4 pt-3 pb-1 text-uppercase text-secondary" style="font-size: 0.72rem; letter-spacing: 0.1em; font-weight: 700;">Sistem</li>
+
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active" : "")" asp-area="Admin" asp-controller="Users" asp-action="Index">
+                        <i class="bi bi-people"></i>
+                        <span>Kullanıcılar & Roller</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Settings" ? "active" : "")" asp-area="Admin" asp-controller="Settings" asp-action="Index">
+                        <i class="bi bi-sliders"></i>
+                        <span>Site Ayarları</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="p-3 border-top border-secondary border-opacity-25">
+                <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank" class="btn btn-outline-secondary w-100 btn-sm mb-2 text-start">
+                    <i class="bi bi-box-arrow-up-right me-2"></i> Web Sitesini Aç
+                </a>
+                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="btn btn-danger w-100 btn-sm text-start">
+                        <i class="bi bi-box-arrow-left me-2"></i> Güvenli Çıkış
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <div class="admin-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="fs-6 fw-semibold">@ViewData["Title"]</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-secondary small d-none d-md-inline">Hoş geldiniz, <strong class="text-light">@User.Identity?.Name</strong></span>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank" class="btn btn-sm btn-outline-light" title="Public Web Sitesine Git">
+                        <i class="bi bi-globe me-1"></i> Siteyi Gör
+                    </a>
+                </div>
+            </div>
+
+            <!-- Content Container -->
+            <div class="admin-content">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show bg-success bg-opacity-25 text-success border-success" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show bg-danger bg-opacity-25 text-danger border-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

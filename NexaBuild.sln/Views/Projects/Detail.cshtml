@@ -1,0 +1,170 @@
+@model NexaBuild.DTOs.ProjectDetailDto
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>@Model.Title</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Projects" asp-action="Index">Projelerimiz</a>
+                <a href="javascript:void(0)">@Model.Title</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Single Post Start-->
+<div class="single">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="single-content wow fadeInUp">
+                    <img src="@Model.CoverImageUrl" alt="@Model.Title" class="w-100 mb-4" style="max-height: 460px; object-fit: cover;" />
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge badge-warning py-2 px-3 text-dark font-weight-bold" style="font-size: 0.9rem;">
+                            @(Model.Status == ProjectStatus.Ongoing ? "Devam Eden Proje" : Model.Status == ProjectStatus.Completed ? "Tamamlanan Proje" : "Planlama Aşaması")
+                        </span>
+                        
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <form asp-controller="Account" asp-action="ToggleFavorite" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="projectId" value="@Model.Id" />
+                                <button type="submit" class="btn btn-sm @(Model.IsFavorited ? "btn-danger" : "btn-outline-danger")">
+                                    <i class="fa fa-heart mr-1"></i>
+                                    @(Model.IsFavorited ? "Favorilerden Çıkar" : "Favorilere Ekle")
+                                </button>
+                            </form>
+                        }
+                    </div>
+
+                    <h2>@Model.Title</h2>
+                    <p class="lead font-weight-bold" style="color: #030f27;">
+                        @Model.ShortDescription
+                    </p>
+                    <p>
+                        @Model.Description
+                    </p>
+
+                    <!-- Proje İlerleme Barı -->
+                    <div class="my-4 p-4 rounded" style="background: #f8f9fa; border: 1px solid #e9ecef;">
+                        <div class="d-flex justify-content-between font-weight-bold mb-2">
+                            <span>İnşaat İlerleme Durumu</span>
+                            <span class="text-warning font-weight-bold">%@Model.ProgressPercentage</span>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: @Model.ProgressPercentage%;" aria-valuenow="@Model.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <!-- Proje Aşamaları (Timeline) -->
+                    @if (Model.Stages != null && Model.Stages.Any())
+                    {
+                        <h3 class="mt-4 mb-3">Proje Şantiye Aşamaları</h3>
+                        <div class="list-group mb-4">
+                            @foreach (var stage in Model.Stages.OrderBy(s => s.Order))
+                            {
+                                <div class="list-group-item list-group-item-action flex-column align-items-start border-left-4" style="border-left: 4px solid @(stage.Status == StageStatus.Completed ? "#28a745" : stage.Status == StageStatus.InProgress ? "#fdbe33" : "#6c757d");">
+                                    <div class="d-flex w-100 justify-content-between align-items-center">
+                                        <h5 class="mb-1 font-weight-bold">
+                                            @if (stage.Status == StageStatus.Completed)
+                                            {
+                                                <i class="fa fa-check-circle text-success mr-2"></i>
+                                            }
+                                            else if (stage.Status == StageStatus.InProgress)
+                                            {
+                                                <i class="fa fa-spinner fa-spin text-warning mr-2"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-clock text-secondary mr-2"></i>
+                                            }
+                                            @stage.Order. @stage.Name
+                                        </h5>
+                                        <small class="badge @(stage.Status == StageStatus.Completed ? "badge-success" : stage.Status == StageStatus.InProgress ? "badge-warning text-dark" : "badge-secondary")">
+                                            @(stage.Status == StageStatus.Completed ? "Tamamlandı" : stage.Status == StageStatus.InProgress ? "Devam Ediyor" : "Planlanıyor")
+                                        </small>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(stage.Description))
+                                    {
+                                        <p class="mb-1 text-muted small">@stage.Description</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <!-- Proje Fotoğraf Galerisi -->
+                    @if (Model.Images != null && Model.Images.Any())
+                    {
+                        <h3 class="mt-4 mb-3">Proje Galerisi</h3>
+                        <div class="row">
+                            @foreach (var img in Model.Images.OrderBy(i => i.DisplayOrder))
+                            {
+                                <div class="col-md-4 col-sm-6 mb-3">
+                                    <a href="@img.ImageUrl" data-lightbox="project-gallery" data-title="@img.Caption">
+                                        <img src="@img.ImageUrl" alt="@img.Caption" class="img-fluid rounded shadow-sm w-100" style="height: 180px; object-fit: cover;" />
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Proje Künyesi</h2>
+                        <div class="text-widget">
+                            <ul class="list-unstyled mb-0">
+                                <li class="py-2 border-bottom"><strong>Lokasyon:</strong> @Model.Location</li>
+                                <li class="py-2 border-bottom"><strong>Kategori:</strong> @Model.CategoryName</li>
+                                <li class="py-2 border-bottom"><strong>Proje Türü:</strong> @Model.ProjectType</li>
+                                @if (!string.IsNullOrEmpty(Model.TotalArea))
+                                {
+                                    <li class="py-2 border-bottom"><strong>Toplam Alan:</strong> @Model.TotalArea</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.NumberOfUnits))
+                                {
+                                    <li class="py-2 border-bottom"><strong>Bağımsız Bölüm:</strong> @Model.NumberOfUnits</li>
+                                }
+                                @if (Model.StartDate.HasValue)
+                                {
+                                    <li class="py-2 border-bottom"><strong>Başlangıç:</strong> @Model.StartDate.Value.ToString("dd.MM.yyyy")</li>
+                                }
+                                @if (Model.CompletionDate.HasValue)
+                                {
+                                    <li class="py-2 border-bottom"><strong>Teslim Tarihi:</strong> @Model.CompletionDate.Value.ToString("dd.MM.yyyy")</li>
+                                }
+                                else if (Model.EstimatedCompletionDate.HasValue)
+                                {
+                                    <li class="py-2 border-bottom"><strong>Tahmini Teslim:</strong> @Model.EstimatedCompletionDate.Value.ToString("dd.MM.yyyy")</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget wow fadeInUp">
+                        <h2 class="widget-title">Bu Projeden Bilgi Alın</h2>
+                        <div class="text-widget">
+                            <p>Proje hakkında detaylı katalog, fiyat listesi veya yerinde sunum randevusu almak için bize ulaşın.</p>
+                            <a asp-controller="Quote" asp-action="Index" class="btn btn-block" style="background: #fdbe33; color: #030f27; font-weight: 700;">Teklif & Bilgi Talebi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Single Post End-->

@@ -1,0 +1,93 @@
+@model NexaBuild.DTOs.RegisterDto
+@{
+    ViewData["Title"] = "Yeni Hesap Oluştur";
+}
+
+<!-- Page Header Start -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Kayıt Ol</h2>
+            </div>
+            <div class="col-12">
+                <a asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                <a asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<div class="contact py-5" style="background: #f8f9fa;">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="p-4 p-md-5 bg-white rounded shadow-sm" style="border: 1px solid #e9ecef;">
+                    <div class="text-center mb-4">
+                        <h3 class="font-weight-bold" style="color: #030f27;">Yeni Hesap Oluştur</h3>
+                        <p class="text-muted small">NexaBuild ayrıcalıklı müşteri paneline katılın.</p>
+                    </div>
+
+                    <form asp-controller="Account" asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3 font-weight-bold"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FullName" class="font-weight-bold text-dark small">Adınız ve Soyadınız *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fa fa-user text-muted"></i></span>
+                                </div>
+                                <input asp-for="FullName" class="form-control" placeholder="Örn: Eren Yılmaz" required />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="font-weight-bold text-dark small">E-Posta Adresi *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fa fa-envelope text-muted"></i></span>
+                                </div>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="ornek@domain.com" required />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="font-weight-bold text-dark small">Şifre *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fa fa-lock text-muted"></i></span>
+                                </div>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="En az 6 karakter" required />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="ConfirmPassword" class="font-weight-bold text-dark small">Şifre Tekrarı *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-light"><i class="fa fa-shield-alt text-muted"></i></span>
+                                </div>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Şifrenizi tekrar giriniz" required />
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-block" style="background: #fdbe33; color: #030f27; font-weight: 700; padding: 12px;">
+                            <i class="fa fa-user-plus mr-2"></i> Kayıt Ol
+                        </button>
+
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <span class="small text-muted">Zaten hesabınız var mı?</span>
+                            <a asp-controller="Account" asp-action="Login" class="small font-weight-bold ml-1" style="color: #030f27;">Giriş Yapın</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
